@@ -1,0 +1,32 @@
+version: "2"
+services:
+  backend:
+    build: ./app
+    links:
+      - db
+    ports:
+      - "5000:5000"
+  db:
+    image: mysql:8.0.23
+    ports:
+      - "33067:3306"
+    environment:
+      MYSQL_DATABASE: main
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - .dbdata:/var/lib/mysql
+
+  percona-server:
+    image: percona/percona-server:8.0
+    environment:
+      MYSQL_DATABASE: main
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: root      
+    ports:
+      - "33068"
+    volumes:
+      # create volumes for use
+      - /var/lib/mysql

@@ -1,0 +1,15 @@
+flask
+Flask-SQLAlchemy==2.5.1
+Flask-Migrate==3.1.0
+Flask-Cors
+Flask-Script
+flask-login
+requests
+SQLAlchemy
+mysqlclient
+pika
+pymysql
+cryptography
+werkzeug
+gunicorn
+flask-swagger-ui==3.36.0
