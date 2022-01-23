@@ -1,0 +1,6 @@
+.dbdata
+.idea
+*.pyc
+app/__pycache__
+
+
