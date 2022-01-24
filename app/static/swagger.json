@@ -1,75 +1,370 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "description": "sean",
-      "version": "1.0.0",
-      "title": "Seans-Python3-Flask-Rest-Boilerplate",
-      "contact": {
-        "email": "seanwasere@gmail.com"
-      },
-      "license": {
-        "name": "MIT",
-        "url": "https://opensource.org/licenses/MIT"
-      }
+  "openapi": "3.0.0",
+  "info": {
+    "description": "sean",
+    "version": "1.0.0",
+    "title": "Seans-Python3-Flask-Rest-Boilerplate",
+    "contact": {
+      "email": "seanwasere@gmail.com"
     },
-    "servers": [
-        {
-          "url": "/"
-        }
-      ],
-      "tags": [
-        {
-          "name": "Task test REST Flask",
-          "description": "Example API with authentication, requesting and return Product to current user"
-        }
-      ],
-    "paths": {
-        "/request": {
-          "get": {
-            "tags": [
-              "Book Request"
-            ],
-            "summary": "Returns bookRequests",
-            "responses": {
-              "200": {
-                "description": "OK",
-                "schema": {
-                  "$ref": "#/components/schemas/bookRequests"
-                }
-              }
-            }
-          },
-          "post": {
-            "tags": [
-              "Book Request"
-            ],
-            "summary": "Create a new book request system",
-            "requestBody": {
-              "description": "Book Request Post Object",
-              "required": true,
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/bookRequestPostBody"
-                  }
-                }
-              }
-            },
-            "produces": [
-              "application/json"
-            ],
-            "responses": {
-              "201": {
-                "description": "OK",
-                "schema": {
-                  "$ref": "#/components/schemas/id"
-                }
-              },
-              "400": {
-                "description": "Failed. Bad post data."
-              }
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Task test REST Flask",
+      "description": "Example API with authentication, requesting and return Product to current user"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "tags": [
+          "Products Request"
+        ],
+        "operationId": "getProducts",
+        "summary": "Returns productsResponses",        
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/productsResponses"
             }
           }
         }
-    } 
-  } 
+      },
+      "post": {
+        "tags": [
+          "Products Request"
+        ],        
+        "summary": "Returns productsResponses",
+        "requestBody": {
+          "description": "Products Request Object",
+          "content": {
+            "application/json": {              
+              "schema": {
+                "$ref": "#/components/schemas/productsRequests"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/productsResponses"
+            }
+          }
+        }
+      }     
+    },
+    "/products/add": {
+      "post": {
+        "tags": [
+          "Products Request"
+        ],
+        "summary": "add products",
+        "requestBody": {
+          "description": "Add products in portal",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/product_list"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "text": "OK"            
+          },
+          "400":{
+            "error":"Bad Request"
+          }
+        }
+      }     
+    },
+    "/product/{id}/update": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the cat that we want to match",
+          "type": "string"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Products Request"
+        ],
+        "summary": "add product",
+        "requestBody": {
+          "description": "Products Request Object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/update_product"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "text": "OK"            
+          },
+          "404":{
+            "error":"Not found"
+          }
+        }
+      }     
+    },
+    "/signup":{
+      "post": {
+        "tags": [
+          "User Request"
+        ],
+        "summary": "add user",
+        "requestBody": {
+          "description": "User Request Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user_add"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "text": "OK"            
+          },
+          "400":{
+            "error":"Bad Request"
+          }
+        }
+      } 
+    },
+    "/login":{
+      "post": {
+        "tags": [
+          "User Request"
+        ],
+        "summary": "login",
+        "requestBody": {
+          "description": "User Request Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "301": {
+            "description": "Redirct",
+            "links":{
+              "GetProducts":{
+                "description": "Redirct to /products",
+                "operationId": "getProducts"
+              }
+            }
+          },
+          "404":{
+            "error":"Not found"
+          }
+        }
+      } 
+    },
+    "/user/update":{
+      "patch": {
+        "tags": [
+          "User Request"
+        ],
+        "summary": "add user",
+        "requestBody": {
+          "description": "User Request Object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/update_user"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "text": "OK"            
+          }
+        }
+      } 
+    }   
+  },  
+  "components": {
+    "schemas": {
+      "product": {
+        "type": "object",
+        "properties": {         
+          "asin": {
+            "type": "string",
+            "format": "string"
+          },
+          "name":{
+            "type": "string",
+            "format": "string"
+          },
+          "currency": {
+            "type": "object",
+            "properties": {}
+          },
+          "id": {
+            "type": "integer"
+          },
+          "image":{
+            "type": "string",
+            "format": "string"
+          },
+          "user_id":{
+            "type": "integer"
+          }
+        }
+      },
+      "product_add": {
+        "type": "object",
+        "properties": {         
+          "asin": {
+            "type": "string",
+            "format": "string"
+          },
+          "currency": {
+            "type": "object",
+            "properties": {}
+          },
+          "name":{
+            "type": "string",
+            "format": "string"
+          },
+          "image":{
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "update_product": {
+        "type": "object",
+        "properties": {         
+          "currency": {
+            "type": "object",
+            "properties": {}
+          },
+          "name":{
+            "type": "string",
+            "format": "string"
+          },
+          "image":{
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "productsResponses":{
+        "type": "object",
+        "properties": {
+          "product_list": {
+            "type": "array",
+            "items": {
+              "$ref":"#/components/schemas/product"
+            }
+          }
+        }
+      },
+      "product_list":{
+        "type": "object",
+        "properties": {
+          "products":{
+            "type": "array",
+            "items": {
+              "$ref":"#/components/schemas/product_add"
+            }
+          }
+        }
+      },
+      "productsRequests": {
+        "type": "object",
+        "properties": {         
+          "asin": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "name": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "string"
+            }
+          }
+        }
+      }, 
+      "user_add":{
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "string"
+          },
+          "image": {
+            "type": "string",
+            "format": "string"
+          },
+          "password": {
+            "type": "string",
+            "format": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "login":{
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "format": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "update_user":{
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "string"
+          },
+          "image": {
+            "type": "string",
+            "format": "string"
+          }         
+        }
+      }
+    }
+  }
+} 
